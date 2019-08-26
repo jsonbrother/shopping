@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.dao.IPromoDao" >
+
+    <resultMap id="BaseResultMap" type="com.shopping.dao.dataObject.PromoDO">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <id column="promo_name" property="promoName" jdbcType="INTEGER" />
+        <id column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+        <id column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+        <id column="item_id" property="itemId" jdbcType="INTEGER" />
+        <id column="promo_item_price" property="promoItemPrice" jdbcType="DOUBLE" />
+    </resultMap>
+
+    <select id="selectByItemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT id, promo_name, start_date, end_date, item_id, promo_item_price FROM tb_promo WHERE item_id = #{itemId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

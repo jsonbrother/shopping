@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.dao.ItemStockDao" >
+
+    <resultMap id="BaseResultMap" type="com.shopping.dao.dataObject.ItemStockDO">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <id column="stock" property="stock" jdbcType="INTEGER" />
+        <id column="item_id" property="itemId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.shopping.dao.dataObject.ItemStockDO">
+        INSERT INTO tb_item_stock
+        <trim prefix="(" suffix =")" suffixOverrides=",">
+            <if test="stock!= null">stock,</if>
+            <if test="itemId!= null">item_id,</if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="stock!=null">#{stock,jdbcType=INTEGER},</if>
+            <if test="itemId!=null">#{itemId,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.shopping.dao.dataObject.ItemStockDO">
+        UPDATE tb_item_stock
+        <set >
+            <if test="stock!=null">stock=#{stock,jdbcType=INTEGER},</if>
+        </set>
+        WHERE item_id=#{itemId,jdbcType=INTEGER}
+    </update>
+
+    <update id="decreaseStock">
+        UPDATE tb_item_stock
+        SET stock = stock - #{amount,jdbcType=INTEGER}
+        WHERE item_id = #{itemId,jdbcType=INTEGER} AND stock >= #{amount,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByItemId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT id, stock, item_id  FROM tb_item_stock WHERE item_id=#{itemId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

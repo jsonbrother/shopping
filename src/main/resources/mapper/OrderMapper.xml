@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.dao.IOrderDao" >
+
+    <resultMap id="BaseResultMap" type="com.shopping.dao.dataObject.OrderDO">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="item_id" property="itemId" jdbcType="INTEGER" />
+        <id column="item_price" property="itemPrice" jdbcType="DOUBLE" />
+        <id column="amount" property="amount" jdbcType="INTEGER" />
+        <id column="order_price" property="orderPrice" jdbcType="DOUBLE" />
+        <id column="promo_id" property="promoId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.shopping.dao.dataObject.OrderDO">
+        INSERT INTO tb_order_info
+        <trim prefix="(" suffix =")" suffixOverrides=",">
+            <if test="id!= null">id,</if>
+            <if test="userId!= null">user_id,</if>
+            <if test="itemId!= null">item_id,</if>
+            <if test="itemPrice!= null">item_price,</if>
+            <if test="amount!= null">amount,</if>
+            <if test="orderPrice!= null">order_price,</if>
+            <if test="promoId!= null">promo_id,</if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id!= null">#{id,jdbcType=VARCHAR},</if>
+            <if test="userId!=null">#{userId,jdbcType=INTEGER},</if>
+            <if test="itemId!=null">#{itemId,jdbcType=INTEGER},</if>
+            <if test="itemPrice!=null">#{itemPrice,jdbcType=DOUBLE},</if>
+            <if test="amount!=null">#{amount,jdbcType=INTEGER},</if>
+            <if test="orderPrice!=null">#{orderPrice,jdbcType=DOUBLE},</if>
+            <if test="promoId!=null">#{promoId,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT id, user_id, item_id, item_price, amount, order_price, promo_id FROM tb_order_info WHERE id = #{id, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT id, user_id, item_id, item_price, amount, order_price, promo_id FROM tb_order_info
+    </select>
+
+</mapper>
